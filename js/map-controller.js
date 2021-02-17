@@ -15,6 +15,8 @@ window.onload = () => {
     addMarker({ lat: 35.6895, lng: 139.6917 });
   });
 
+  renderLocsTable(mapService.getLocs());
+
   document.querySelector('.add').addEventListener('click', onAddLoc);
 
   initMap()
@@ -35,7 +37,7 @@ window.onload = () => {
 function onAddLoc() {
   mapService.addLocToLocs();
   const locs = mapService.getLocs();
-  renderLocationTable(locs);
+  renderLocsTable(locs);
 }
 
 function initMap(laLatLng = { lat: 32.0749831, lng: 34.9120554 }) {
@@ -165,6 +167,19 @@ function renderInfoPopup(laLatLng) {
   });
   gInfoPopup.setContent(JSON.stringify(laLatLng));
   gInfoPopup.open(gMap);
+}
+
+function renderLocsTable(locs) {
+  document.querySelector('.saved-locations-list tbody').innerHTML = locs
+    .map((loc, idx) => {
+      return `<tr>
+        <td>${idx + 1}</td>
+        <td>${loc.address}</td>
+        <td>${loc.createdAt}</td>
+        <td>${loc.weather.temp}</td>
+        </tr>`;
+    })
+    .join('');
 }
 
 // function getLOC(lalatlng) {
