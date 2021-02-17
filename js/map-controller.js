@@ -12,12 +12,15 @@ window.onload = () => {
   document.querySelector('.go-button').addEventListener('click', (ev) => {
     console.log('Aha!', ev.target);
     panTo({ lat: 35.6895, lng: 139.6917 });
-    addMarker({ lat: 35.6895, lng: 139.6917 });
   });
 
   renderLocsTable(mapService.getLocs());
 
   document.querySelector('.add').addEventListener('click', onAddLoc);
+  document.querySelector('.my-location-btn').addEventListener('click', panToMyLocation);
+  document.querySelectorAll('.btn-go').forEach(el=>{
+    el.addEventListener('click', panToSelectedLocation,this);
+  })
 
   initMap()
     .then(() => {
@@ -25,14 +28,32 @@ window.onload = () => {
     })
     .catch(() => console.log('INIT MAP ERROR'));
 
+};
+
+function panToMyLocation() {
   getPosition()
-    .then((pos) => {
-      console.log('User position is:', pos.coords);
+    .then(pos => pos.coords)
+    .then(coords => {
+      return { lat: coords.latitude, lng: coords.longitude }
+    })
+    .then(lalatlng => {
+      panTo(lalatlng);
     })
     .catch((err) => {
       console.log('err!!!', err);
     });
-};
+}
+
+function panToSelectedLocation(el){
+  const idx=el.srcElement.dataset.idx;
+  var loc=mapService.getLocs()[idx];
+  var coords={
+    lat:loc.lat,
+    lng:loc.lng
+  }
+  panTo(coords);
+  renderLocInfo(loc);
+}
 
 function onAddLoc() {
   mapService.addLocToLocs();
@@ -89,6 +110,8 @@ function clearMarkers() {
 
 function panTo(laLatLng) {
   gMap.panTo(laLatLng);
+  addMarker(laLatLng);
+
 }
 
 function getPosition() {
@@ -138,7 +161,6 @@ function renderLocInfo(locInfo) {
 }
 
 function renderWeather(weather) {
-  console.log('weather:', weather);
 
   let elTitle = document.querySelector('.weather-details-location');
   elTitle.innerText = weather.city;
@@ -154,10 +176,8 @@ function renderWeather(weather) {
 }
 
 function renderLocOnMap(lalatlng) {
-  panTo(lalatlng);
-
   clearMarkers();
-  addMarker(lalatlng);
+  panTo(lalatlng);
 }
 
 function renderInfoPopup(laLatLng) {
@@ -172,11 +192,13 @@ function renderInfoPopup(laLatLng) {
 function renderLocsTable(locs) {
   document.querySelector('.saved-locations-list tbody').innerHTML = locs
     .map((loc, idx) => {
+      console.log('loc:', loc)
       return `<tr>
         <td>${idx + 1}</td>
         <td>${loc.address}</td>
         <td>${loc.createdAt}</td>
         <td>${loc.weather.temp}</td>
+        <td><button class="btn-go" data-idx="${idx}">go</button><button>delete</button>
         </tr>`;
     })
     .join('');
