@@ -116,7 +116,6 @@ function onMapClick(mapsMouseEvent) {
 }
 
 function renderLoc(lalatlng) {
-  console.log(lalatlng);
   panTo(lalatlng);
   addMarker(lalatlng);
 }
@@ -126,6 +125,6 @@ function renderInfoPopup(laLatLng) {
   gInfoPopup = new google.maps.InfoWindow({
     position: laLatLng,
   });
-  gInfoPopup.setContent(laLatLng);
+  gInfoPopup.setContent(JSON.stringify(laLatLng));
   gInfoPopup.open(gMap);
 }
