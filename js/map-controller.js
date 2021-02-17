@@ -2,7 +2,7 @@ import { mapService } from './services/map-service.js';
 
 var gMap;
 var gInfoPopup;
-console.log('Main!');
+var gMarkers = [];
 
 mapService.getLocs().then((locs) => console.log('locs', locs));
 
@@ -12,6 +12,10 @@ window.onload = () => {
     panTo({ lat: 35.6895, lng: 139.6917 });
     addMarker({ lat: 35.6895, lng: 139.6917 });
   });
+
+  document
+    .querySelector('.add')
+    .addEventListener('click', mapService.addLocToList);
 
   initMap()
     .then(() => {
@@ -59,14 +63,21 @@ function addMarker(laLatLng) {
     map: gMap,
     title: 'Hello World!',
   });
+  gMarkers.push(marker);
+
+  //   setTimeout(clearMarker, 3000, marker);
+
   return marker;
+}
+
+function clearMarker(marker) {
+  marker.setMap(null);
 }
 
 function panTo(laLatLng) {
   gMap.panTo(laLatLng);
 }
 
-// This function provides a Promise API to the callback-based-api of getCurrentPosition
 function getPosition() {
   console.log('Getting Pos');
   return new Promise((resolve, reject) => {
@@ -90,12 +101,24 @@ function _connectGoogleApi() {
 }
 
 function onMapClick(mapsMouseEvent) {
-  let laLatLng = mapsMouseEvent.latLng;
+  let laLatLng = {
+    lat: mapsMouseEvent.latLng.lat(),
+    lng: mapsMouseEvent.latLng.lng(),
+  };
 
   mapService.updateCurrLoc(laLatLng);
 
-  // update gInfoPopup:
+  // render new location on map:
+  renderLoc(laLatLng);
+
+  // render gInfoPopup:
   renderInfoPopup(laLatLng);
+}
+
+function renderLoc(lalatlng) {
+  console.log(lalatlng);
+  panTo(lalatlng);
+  addMarker(lalatlng);
 }
 
 function renderInfoPopup(laLatLng) {
@@ -103,10 +126,6 @@ function renderInfoPopup(laLatLng) {
   gInfoPopup = new google.maps.InfoWindow({
     position: laLatLng,
   });
-  gInfoPopup.setContent(JSON.stringify(laLatLng.toJSON(), null, 2));
+  gInfoPopup.setContent(laLatLng);
   gInfoPopup.open(gMap);
 }
-
-document
-  .querySelector('.add')
-  .addEventListener('click', mapService.addLocToList);
