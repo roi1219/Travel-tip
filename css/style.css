@@ -17,7 +17,7 @@ button:hover {
 }
 main {
   width: 800px;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   margin: 0 auto;
 }
 aside {
@@ -32,7 +32,7 @@ aside {
 .weather {
   flex: 1;
   margin: 5px;
-  border: 4px solid red;
+  /* border: 4px solid red; */
   text-align: center;
 }
 
@@ -40,12 +40,12 @@ aside {
   overflow: auto;
   flex: 1;
   margin: 5px;
-  border: 4px solid red;
+  /* border: 4px solid red; */
   text-align: center;
 }
 
 td {
-  border: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 /* HELPERS */
