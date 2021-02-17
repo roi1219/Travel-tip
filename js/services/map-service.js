@@ -2,7 +2,7 @@ import { utilService } from './utils-service.js';
 
 export const mapService = {
     getLocs,
-    addLocToList,
+    addLocToLocs,
     updateCurrLoc,
     currLoc,
 };
@@ -37,18 +37,18 @@ function updateCurrLoc(lalatlng) {
         .catch((err) => console.log(err));
     return Promise.all([prmAddress, prmWeather])
         .then(res => {
-            return {
+            currLoc= {
                 lng: lalatlng.lng,
                 lat: lalatlng.lat,
                 id,
                 address: res[0],
                 weather: res[1]
             }
+            return currLoc;
         })
 }
 
-function addLocToList() {
-    console.log('currLoc:', currLoc)
-    // var address=axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyCrriVsB6ciePOk-kQcaqIn-WBUxnKjpEQ`)
+function addLocToLocs() {
+    locs.push(currLoc);
 }
 
