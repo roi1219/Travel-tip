@@ -1,4 +1,5 @@
 import { utilService } from './utils-service.js';
+import { storageService } from './storage-service.js';
 
 export const mapService = {
     getLocs,
@@ -27,6 +28,7 @@ function updateCurrLoc(lalatlng) {
         .catch((err) => console.log(err));
     const prmWeather = axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lalatlng.lat}&lon=${lalatlng.lng}&units=metric&appid=21da4badb28db13dc72072bc45fb78d8`)
         .then(res => {
+            console.log('res:', res)
             return {
                 temp: res.data.main.temp,
                 feelsLike: res.data.main.feels_like,
@@ -44,11 +46,14 @@ function updateCurrLoc(lalatlng) {
                 address: res[0],
                 weather: res[1]
             }
+            console.log('currLoc:', currLoc)
             return currLoc;
         })
 }
 
 function addLocToLocs() {
+    currLoc['created at']=Date.now();
     locs.push(currLoc);
+    storageService.saveToStorage('saved locations',locs);
 }
 

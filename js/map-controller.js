@@ -15,7 +15,7 @@ window.onload = () => {
 
   document
     .querySelector('.add')
-    .addEventListener('click', mapService.addLocToList);
+    .addEventListener('click', mapService.addLocToLocs);
 
   initMap()
     .then(() => {
@@ -115,7 +115,7 @@ function onMapClick(mapsMouseEvent) {
     lng: mapsMouseEvent.latLng.lng(),
   };
 
-//   mapService.updateCurrLoc(lalatlng).then(renderLoc);
+  mapService.updateCurrLoc(lalatlng);
 
   // render new location on map:
   renderLoc(laLatLng);
