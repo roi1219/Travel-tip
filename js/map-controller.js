@@ -30,6 +30,7 @@ window.onload = () => {
 
 function initMap(laLatLng = { lat: 32.0749831, lng: 34.9120554 }) {
   console.log('InitMap');
+  mapService.updateCurrLoc(laLatLng);
   return _connectGoogleApi().then(() => {
     console.log('google available');
     gMap = new google.maps.Map(document.querySelector('#map'), {
@@ -91,7 +92,7 @@ function _connectGoogleApi() {
 function onMapClick(mapsMouseEvent) {
   let laLatLng = mapsMouseEvent.latLng;
 
-  updateCurrLoc(laLatLng);
+  mapService.updateCurrLoc(laLatLng);
 
   // update gInfoPopup:
   renderInfoPopup(laLatLng);
