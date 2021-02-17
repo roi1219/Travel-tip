@@ -9,7 +9,7 @@ var gMarkers = [];
 // mapService.getLocs().then((locs) => console.log('locs', locs));
 
 window.onload = () => {
-  document.querySelector('.btn').addEventListener('click', (ev) => {
+  document.querySelector('.go-button').addEventListener('click', (ev) => {
     console.log('Aha!', ev.target);
     panTo({ lat: 35.6895, lng: 139.6917 });
   });

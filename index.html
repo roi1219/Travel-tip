@@ -8,17 +8,19 @@
     <title>ES6</title>
   </head>
   <body>
-    <header>
-      <main class="flex align-center space-between main-container">
-        <h1>TravelTip</h1>
-        <!-- <form action=""> -->
-        <input type="text" name="location" />
-        <button class="btn">GO</button>
-        <button class="my-location-btn">My Location</button>
-        <!-- </form> -->
+    <nav class="main-container main-nav">
+      <main class="nav-flex flex space-between">
+        <h1 class="logo">TravelTip</h1>
+        <div class="search-container flex">
+          <input type="text" name="location" />
+          <button class="go-button">GO</button>
+          <button class="my-location-button">
+            <img src="images/marker.png" alt="" />
+          </button>
+        </div>
       </main>
-    </header>
-    <main>
+    </nav>
+    <main class="main-container">
       <header class="flex">
         <div class="location location-text-box">
           <strong>Location:</strong> <span></span>
