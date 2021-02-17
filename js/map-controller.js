@@ -6,7 +6,7 @@ var gMap;
 var gInfoPopup;
 var gMarkers = [];
 
-mapService.getLocs().then((locs) => console.log('locs', locs));
+// mapService.getLocs().then((locs) => console.log('locs', locs));
 
 window.onload = () => {
   document.querySelector('.btn').addEventListener('click', (ev) => {
