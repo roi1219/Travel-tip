@@ -33,12 +33,14 @@ function updateCurrLoc(lalatlng) {
                 temp: res.data.main.temp,
                 feelsLike: res.data.main.feels_like,
                 humidity: res.data.main.humidity,
-                weather: res.data.weather[0].main
+                weather: res.data.weather[0].main,
+                city:res.data.name
             };
         })
         .catch((err) => console.log(err));
     return Promise.all([prmAddress, prmWeather])
         .then(res => {
+            console.log('res:', res)
             currLoc= {
                 lng: lalatlng.lng,
                 lat: lalatlng.lat,
