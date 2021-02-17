@@ -1,5 +1,6 @@
 export const mapService = {
   getLocs,
+  currLoc: null,
 };
 var locs = [{ lat: 11.22, lng: 22.11 }];
 

@@ -1,6 +1,7 @@
 import { mapService } from './services/map-service.js';
 
 var gMap;
+var gInfoPopup;
 console.log('Main!');
 
 mapService.getLocs().then((locs) => console.log('locs', locs));
@@ -27,14 +28,26 @@ window.onload = () => {
     });
 };
 
-function initMap(lat = 32.0749831, lng = 34.9120554) {
+function initMap(laLatLng = { lat: 32.0749831, lng: 34.9120554 }) {
   console.log('InitMap');
   return _connectGoogleApi().then(() => {
     console.log('google available');
     gMap = new google.maps.Map(document.querySelector('#map'), {
-      center: { lat, lng },
+      center: laLatLng,
       zoom: 15,
     });
+
+    const defaultLatLng = { lat: 32.0749831, lng: 34.9120554 };
+    // Create the initial Info popup.
+    gInfoPopup = new google.maps.InfoWindow({
+      content: 'Click the map to get Lat/Lng!',
+      position: defaultLatLng,
+    });
+    gInfoPopup.open(gMap);
+
+    // Configure the click listener.
+    gMap.addListener('click', onMapClick);
+
     console.log('Map!', gMap);
   });
 }
@@ -62,7 +75,8 @@ function getPosition() {
 
 function _connectGoogleApi() {
   if (window.google) return Promise.resolve();
-  const API_KEY = 'AIzaSyCrriVsB6ciePOk-kQcaqIn-WBUxnKjpEQ'; //TODO: Enter your API Key
+  const API_KEY = 'AIzaSyCrriVsB6ciePOk-kQcaqIn-WBUxnKjpEQ';
+
   var elGoogleApi = document.createElement('script');
   elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
   elGoogleApi.async = true;
@@ -72,4 +86,22 @@ function _connectGoogleApi() {
     elGoogleApi.onload = resolve;
     elGoogleApi.onerror = () => reject('Google script failed to load');
   });
+}
+
+function onMapClick(mapsMouseEvent) {
+  let laLatLng = mapsMouseEvent.latLng;
+
+  updateCurrLoc(laLatLng);
+
+  // update gInfoPopup:
+  renderInfoPopup(laLatLng);
+}
+
+function renderInfoPopup(laLatLng) {
+  gInfoPopup.close();
+  gInfoPopup = new google.maps.InfoWindow({
+    position: laLatLng,
+  });
+  gInfoPopup.setContent(JSON.stringify(laLatLng.toJSON(), null, 2));
+  gInfoPopup.open(gMap);
 }
