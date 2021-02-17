@@ -115,7 +115,7 @@ function onMapClick(mapsMouseEvent) {
     lng: mapsMouseEvent.latLng.lng(),
   };
 
-  mapService.updateCurrLoc(lalatlng).then(renderLoc);
+//   mapService.updateCurrLoc(lalatlng).then(renderLoc);
 
   // render new location on map:
   renderLoc(laLatLng);
