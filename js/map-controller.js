@@ -1,3 +1,5 @@
+import { storageService } from './services/storage-service.js';
+
 import { mapService } from './services/map-service.js';
 
 var gMap;
@@ -13,9 +15,7 @@ window.onload = () => {
     addMarker({ lat: 35.6895, lng: 139.6917 });
   });
 
-  document
-    .querySelector('.add')
-    .addEventListener('click', mapService.addLocToLocs);
+  document.querySelector('.add').addEventListener('click', onAddLoc);
 
   initMap()
     .then(() => {
@@ -32,8 +32,10 @@ window.onload = () => {
     });
 };
 
-function renderLocList(address) {
-  console.log('address:', address);
+function onAddLoc() {
+  mapService.addLocToLocs();
+  const locs = mapService.getLocs();
+  renderLocationTable(locs);
 }
 
 function initMap(laLatLng = { lat: 32.0749831, lng: 34.9120554 }) {
