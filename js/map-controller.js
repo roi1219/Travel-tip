@@ -106,3 +106,7 @@ function renderInfoPopup(laLatLng) {
   gInfoPopup.setContent(JSON.stringify(laLatLng.toJSON(), null, 2));
   gInfoPopup.open(gMap);
 }
+
+document
+  .querySelector('.add')
+  .addEventListener('click', mapService.addLocToList);
