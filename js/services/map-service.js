@@ -2,21 +2,21 @@ import { utilService } from './utils-service.js';
 import { storageService } from './storage-service.js';
 
 export const mapService = {
-    getLocs,
-    addLocToLocs,
-    updateCurrLoc,
-    currLoc,
+  getLocs,
+  addLocToLocs,
+  updateCurrLoc,
+  currLoc,
 };
 
 var locs = [{ lat: 11.22, lng: 22.11 }];
 var currLoc;
 
 function getLocs() {
-    return Promise.resolve(locs);
-    //   return new Promise((resolve, reject) => {
-    // setTimeout(() => {
-    // }, 2000);
-    //   });
+  return Promise.resolve(locs);
+  //   return new Promise((resolve, reject) => {
+  // setTimeout(() => {
+  // }, 2000);
+  //   });
 }
 
 function updateCurrLoc(lalatlng) {
@@ -56,4 +56,3 @@ function addLocToLocs() {
     locs.push(currLoc);
     storageService.saveToStorage('saved locations',locs);
 }
-

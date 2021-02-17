@@ -1,38 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="#" type="image/x-icon">
-    <link rel="stylesheet" href="css/style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="#" type="image/x-icon" />
+    <link rel="stylesheet" href="css/style.css" />
     <title>ES6</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <main class="flex align-center space-between">
-            <h1>TravelTip</h1>
-            <!-- <form action=""> -->
-                <input type="text" name="location"/>
-                <button class="btn">GO</button>
-                <button>My Location</button>
-            <!-- </form> -->
-        </main>
+      <main class="flex align-center space-between">
+        <h1>TravelTip</h1>
+        <!-- <form action=""> -->
+        <input type="text" name="location" />
+        <button class="btn">GO</button>
+        <button>My Location</button>
+        <!-- </form> -->
+      </main>
     </header>
     <main>
-        <header class="flex">
-            <div class="location"><strong>Location:</strong> Central Park, New York</div>
-            <button>Copy Location</button>
-        </header>
-        <main class="flex space-between main-content">
-            <aside class="flex">
-                <article class="weather">Weather Today</article>
-                <article class="locations-table">locations-table</article>
-            </aside>
-            <div id="map" style="width: 50%; height: 100%;"></div>
-        </main>
+      <header class="flex">
+        <div class="location location-text-box">
+          <strong>Location:</strong> <span></span>
+        </div>
+        <button>Copy Location</button>
+      </header>
+      <main class="flex space-between main-content">
+        <aside class="flex">
+          <article class="weather weather-container">
+            <h2 class="weather-title">weather</h2>
+            <img src="images/cloud.png" alt="" class="weather-img" />
+            <div class="weather-details-box">
+              <div class="weather-details-top">
+                <p class="weather-details-location"></p>
+                <img src="" alt="" class="weather-details-img" />
+                <p class="weather-details-weather"></p>
+              </div>
+              <div class="weather-details-bottom">
+                <p class="weather-details-temp"></p>
+                <p class="weather-details-minmax"></p>
+              </div>
+            </div>
+          </article>
+
+          <article class="locations-table">locations-table</article>
+        </aside>
+        <div id="map" style="width: 50%; height: 100%"></div>
+      </main>
     </main>
     <button class="add">add</button>
     <script src="lib/axios.js"></script>
     <script type="module" src="js/map-controller.js"></script>
-</body>
+  </body>
 </html>
