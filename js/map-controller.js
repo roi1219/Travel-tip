@@ -73,6 +73,12 @@ function clearMarker(marker) {
   marker.setMap(null);
 }
 
+function clearMarkers() {
+  gMarkers.forEach((marker) => {
+    marker.setMap(null);
+  });
+}
+
 function panTo(laLatLng) {
   gMap.panTo(laLatLng);
 }
@@ -105,7 +111,7 @@ function onMapClick(mapsMouseEvent) {
     lng: mapsMouseEvent.latLng.lng(),
   };
 
-  mapService.updateCurrLoc(laLatLng);
+  mapService.updateCurrLoc(lalatlng).then(renderLoc);
 
   // render new location on map:
   renderLoc(laLatLng);
@@ -116,6 +122,8 @@ function onMapClick(mapsMouseEvent) {
 
 function renderLoc(lalatlng) {
   panTo(lalatlng);
+
+  clearMarkers();
   addMarker(lalatlng);
 }
 
@@ -126,4 +134,18 @@ function renderInfoPopup(laLatLng) {
   });
   gInfoPopup.setContent(JSON.stringify(laLatLng));
   gInfoPopup.open(gMap);
+}
+
+function getLOC(lalatlng) {
+  const prm = axius('api-address')
+    .then((data) => data.data.address)
+    .then((address) => {
+      return {
+        id: 'id',
+        laLatLng: lalatlng,
+        address,
+      };
+    });
+
+  return prm;
 }
