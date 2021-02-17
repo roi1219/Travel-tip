@@ -6,7 +6,7 @@ var gMap;
 var gInfoPopup;
 var gMarkers = [];
 
-mapService.getLocs().then((locs) => console.log('locs', locs));
+// mapService.getLocs().then((locs) => console.log('locs', locs));
 
 window.onload = () => {
   document.querySelector('.btn').addEventListener('click', (ev) => {
@@ -137,6 +137,18 @@ function renderLocInfo(locInfo) {
 
 function renderWeather(weather) {
   console.log('weather:', weather);
+
+  let elTitle = document.querySelector('.weather-details-location');
+  elTitle.innerText = weather.city;
+
+  let elweather = document.querySelector('.weather-details-weather');
+  elweather.innerText = weather.weather;
+
+  let elTemp = document.querySelector('.weather-details-temp');
+  elTemp.innerText = `${weather.temp}℃`;
+
+  let elMinMax = document.querySelector('.weather-details-minmax');
+  elMinMax.innerText = `feels like ${weather.feelsLike}`;
 }
 
 function renderLocOnMap(lalatlng) {
