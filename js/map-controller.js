@@ -32,8 +32,8 @@ window.onload = () => {
     });
 };
 
-function renderLocList(address){
-    console.log('address:', address)
+function renderLocList(address) {
+  console.log('address:', address);
 }
 
 function initMap(laLatLng = { lat: 32.0749831, lng: 34.9120554 }) {
@@ -115,16 +115,29 @@ function onMapClick(mapsMouseEvent) {
     lng: mapsMouseEvent.latLng.lng(),
   };
 
-  mapService.updateCurrLoc(lalatlng).then(renderLoc);
+  mapService.updateCurrLoc(laLatLng).then(renderLocInfo);
 
   // render new location on map:
-  renderLoc(laLatLng);
+  renderLocOnMap(laLatLng);
 
   // render gInfoPopup:
   renderInfoPopup(laLatLng);
 }
 
-function renderLoc(lalatlng) {
+function renderLocInfo(locInfo) {
+  console.log(locInfo);
+
+  let elLocation = document.querySelector('.location-text-box span');
+  elLocation.innerText = locInfo.address;
+
+  renderWeather(locInfo.weather);
+}
+
+function renderWeather(weather) {
+  console.log('weather:', weather);
+}
+
+function renderLocOnMap(lalatlng) {
   panTo(lalatlng);
 
   clearMarkers();
@@ -140,16 +153,16 @@ function renderInfoPopup(laLatLng) {
   gInfoPopup.open(gMap);
 }
 
-function getLOC(lalatlng) {
-  const prm = axius('api-address')
-    .then((data) => data.data.address)
-    .then((address) => {
-      return {
-        id: 'id',
-        laLatLng: lalatlng,
-        address,
-      };
-    });
+// function getLOC(lalatlng) {
+//   const prm = axius('api-address')
+//     .then((data) => data.data.address)
+//     .then((address) => {
+//       return {
+//         id: 'id',
+//         laLatLng: lalatlng,
+//         address,
+//       };
+//     });
 
-  return prm;
-}
+//   return prm;
+// }
