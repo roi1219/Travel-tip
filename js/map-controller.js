@@ -73,3 +73,5 @@ function _connectGoogleApi() {
     elGoogleApi.onerror = () => reject('Google script failed to load');
   });
 }
+document.querySelector('.add').addEventListener('click',mapService.addLocToList)
+// mapService.addLocToList({ lat: 32.0749831, lng: 34.9120554 })
