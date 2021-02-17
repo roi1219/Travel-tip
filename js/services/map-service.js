@@ -21,8 +21,8 @@ function updateCurrLoc(lalatlng){
 }
 
 function addLocToList(){
-    var address=axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${currLoc.lat},${currLoc.lng}&key=AIzaSyCayMkRnINh4Tf4OreuRwzjsIyKz9X1b_M`)
     // var address=axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyCrriVsB6ciePOk-kQcaqIn-WBUxnKjpEQ`)
+    var address=axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${currLoc.lat},${currLoc.lng}&key=AIzaSyCayMkRnINh4Tf4OreuRwzjsIyKz9X1b_M`)
     .then(res=>{
         console.log('res:', res)
     })
