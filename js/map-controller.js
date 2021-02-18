@@ -17,7 +17,7 @@ window.onload = () => {
   renderLocsTable(mapService.getLocs());
 
   document.querySelector('.add').addEventListener('click', onAddLoc);
-  document.querySelector('.my-location-btn').addEventListener('click', panToMyLocation);
+  document.querySelector('.my-location-button').addEventListener('click', panToMyLocation);
   document.querySelectorAll('.btn-go').forEach(el=>{
     el.addEventListener('click', panToSelectedLocation,this);
   })
