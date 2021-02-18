@@ -22,6 +22,10 @@ button {
 button:hover {
   opacity: 0.5;
 }
+nav{
+    background-color: turquoise;
+    padding: 10px;
+}
 main {
   width: 800px;
   /* border: 1px solid black; */

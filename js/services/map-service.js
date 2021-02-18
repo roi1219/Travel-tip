@@ -5,6 +5,7 @@ export const mapService = {
     getLocs,
     addLocToLocs,
     updateCurrLoc,
+    deleteLocation
 };
 
 var locs = storageService.loadFromStorage('saved locations') || [];
@@ -53,5 +54,10 @@ function updateCurrLoc(lalatlng) {
 function addLocToLocs() {
     currLoc['createdAt'] = Date.now();
     locs.push(currLoc);
+    storageService.saveToStorage('saved locations', locs);
+}
+
+function deleteLocation(idx){
+    locs.splice(idx,1);
     storageService.saveToStorage('saved locations', locs);
 }

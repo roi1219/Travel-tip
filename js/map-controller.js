@@ -9,18 +9,7 @@ var gMarkers = [];
 // mapService.getLocs().then((locs) => console.log('locs', locs));
 
 window.onload = () => {
-  document.querySelector('.go-button').addEventListener('click', (ev) => {
-    console.log('Aha!', ev.target);
-    panTo({ lat: 35.6895, lng: 139.6917 });
-  });
-
   renderLocsTable(mapService.getLocs());
-
-  document.querySelector('.add').addEventListener('click', onAddLoc);
-  document.querySelector('.my-location-button').addEventListener('click', panToMyLocation);
-  document.querySelectorAll('.btn-go').forEach(el=>{
-    el.addEventListener('click', panToSelectedLocation,this);
-  })
 
   initMap()
     .then(() => {
@@ -29,6 +18,26 @@ window.onload = () => {
     .catch(() => console.log('INIT MAP ERROR'));
 
 };
+
+function addListeners() {
+  console.log('listnersssss');
+  document.querySelector('.go-button').addEventListener('click', (ev) => {
+    console.log('Aha!', ev.target);
+    panTo({ lat: 35.6895, lng: 139.6917 });
+  });
+
+  document.querySelector('.add').addEventListener('click', onAddLoc);
+  document.querySelector('.my-location-button').addEventListener('click', panToMyLocation);
+  var btns = document.querySelectorAll('.btn-go');
+  console.log('btns:', btns)
+  btns.forEach(el => {
+    console.log('el:', el)
+    el.addEventListener('click', panToSelectedLocation, this);
+  })
+  document.querySelectorAll('.btn-delete').forEach(el => {
+    el.addEventListener('click', deleteSelectedLocation, this);
+  })
+}
 
 function panToMyLocation() {
   getPosition()
@@ -44,21 +53,28 @@ function panToMyLocation() {
     });
 }
 
-function panToSelectedLocation(el){
-  const idx=el.srcElement.dataset.idx;
-  var loc=mapService.getLocs()[idx];
-  var coords={
-    lat:loc.lat,
-    lng:loc.lng
+function panToSelectedLocation(el) {
+  console.log('el:', el)
+  const idx = el.srcElement.dataset.idx;
+  var loc = mapService.getLocs()[idx];
+  var coords = {
+    lat: loc.lat,
+    lng: loc.lng
   }
   panTo(coords);
   renderLocInfo(loc);
 }
 
+function deleteSelectedLocation(el) {
+  const idx = el.srcElement.dataset.idx;
+  console.log('idx:', idx)
+  mapService.deleteLocation(idx);
+  renderLocsTable(mapService.getLocs());
+}
+
 function onAddLoc() {
   mapService.addLocToLocs();
-  const locs = mapService.getLocs();
-  renderLocsTable(locs);
+  renderLocsTable(mapService.getLocs());
 }
 
 function initMap(laLatLng = { lat: 32.0749831, lng: 34.9120554 }) {
@@ -70,13 +86,13 @@ function initMap(laLatLng = { lat: 32.0749831, lng: 34.9120554 }) {
       zoom: 15,
     });
 
-    const defaultLatLng = { lat: 32.0749831, lng: 34.9120554 };
-    // Create the initial Info popup.
-    gInfoPopup = new google.maps.InfoWindow({
-      content: 'Click the map to get Lat/Lng!',
-      position: defaultLatLng,
-    });
-    gInfoPopup.open(gMap);
+    // const defaultLatLng = { lat: 32.0749831, lng: 34.9120554 };
+    // // Create the initial Info popup.
+    // gInfoPopup = new google.maps.InfoWindow({
+    //   content: 'Click the map to get Lat/Lng!',
+    //   position: defaultLatLng,
+    // });
+    // gInfoPopup.open(gMap);
 
     // Configure the click listener.
     gMap.addListener('click', onMapClick);
@@ -148,7 +164,7 @@ function onMapClick(mapsMouseEvent) {
   renderLocOnMap(laLatLng);
 
   // render gInfoPopup:
-  renderInfoPopup(laLatLng);
+  // renderInfoPopup(laLatLng);
 }
 
 function renderLocInfo(locInfo) {
@@ -190,18 +206,20 @@ function renderInfoPopup(laLatLng) {
 }
 
 function renderLocsTable(locs) {
+  console.log('locs:', locs)
   document.querySelector('.saved-locations-list tbody').innerHTML = locs
     .map((loc, idx) => {
-      console.log('loc:', loc)
       return `<tr>
         <td>${idx + 1}</td>
         <td>${loc.address}</td>
         <td>${loc.createdAt}</td>
         <td>${loc.weather.temp}</td>
-        <td><button class="btn-go" data-idx="${idx}">go</button><button>delete</button>
+        <td><button class="btn-go" data-idx="${idx}">go</button></td>
+        <td><button class="btn-delete" data-idx="${idx}">delete</button></td>
         </tr>`;
     })
     .join('');
+    addListeners();
 }
 
 // function getLOC(lalatlng) {
